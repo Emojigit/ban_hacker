@@ -16,9 +16,9 @@ if have_mod.mail and core.settings:get("name") then
 		local title = "Ban Hacker log: "..name.." ["..ip.."] at "..tostring(time)
 		local text_m1 = "Type: "
 		local text_0 = text_m1..(type_login or "Ban")
-		local text_1 = "A user tried to hack the server at "..tostring(time)..".\n"..name.." ["..ip.."]\n"
+		local text_1 = "\nA user tried to hack the server at "..tostring(time)..".\n"..name.." ["..ip.."]\n"
 		local text_3 = "\nDO NOT REPLY THIS MESSAGE\n\nFrom,\nSystem"
-		local text = text_1..(text_2 or "")..text_3
+		local text = text_0..text_1..(text_2 or "")..text_3
 		mail.send("Ban Hackers System",core.settings:get("name"),title,text)
 	end
 end
@@ -59,7 +59,7 @@ minetest.register_on_authplayer(function(name, ip, is_success)
 		rc.record(name)
 		rc.record(ip)
 		if (rc.ban[name] or rc.ban[ip]) and rc.send_mail then
-			rc.send_mail(name, ip, os.time(os.date("!*t")))
+			rc.send_mail(name, ip, os.date('%Y-%m-%d %H:%M:%S'))
 		end
 		minetest.log("action", "[ban_hacker] Wrong password from "..name.." ["..ip.."], recorded.")
 	end
@@ -72,7 +72,7 @@ minetest.register_on_prejoinplayer(function(name, ip)
 		minetest.log("action", "[ban_hacker] Rejected connect from "..name.." ["..ip.."]")
 		if (rc.ban[ip] + banip_second > os.time(os.date("!*t"))) then
 			rc.record(ip)
-			rc.send_mail(name, ip, os.time(os.date("!*t")), "Tried to join")
+			rc.send_mail(name, ip, os.date('%Y-%m-%d %H:%M:%S'), "Tried to join")
 		end
 		return "Too many wrong password for this account or IP.".."\nTry again later."
 	end
