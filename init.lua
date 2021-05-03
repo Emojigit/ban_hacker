@@ -11,7 +11,7 @@ local warn_time = 5-2
 local warn_second = 300
 local ban_second = 300
 local banip_second = 600
-if have_mod.mail and core.settings:get("name") then
+if have_mod.mail and core.settings:get("ban_hacker_mail") then
 	rc.send_mail = function(name, ip, time, type_login)
 		local title = "Ban Hacker log: "..name.." ["..ip.."] at "..tostring(time)
 		local text_m1 = "Type: "
