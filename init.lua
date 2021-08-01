@@ -11,7 +11,7 @@ local warn_time = 5-2
 local warn_second = 300
 local ban_second = 300
 local banip_second = 600
-if have_mod.mail and core.settings:get("ban_hacker_mail") then
+if have_mod.mail and minetest.settings:get("ban_hacker_mail") then
 	bh_rc.send_mail = function(name, ip, time, type_login)
 		local title = "Ban Hacker log: "..name.." ["..ip.."] at "..tostring(time)
 		local text_m1 = "Type: "
@@ -21,6 +21,8 @@ if have_mod.mail and core.settings:get("ban_hacker_mail") then
 		local text = text_0..text_1..(text_2 or "")..text_3
 		mail.send("Ban Hackers System",core.settings:get("name"),title,text)
 	end
+else
+	bh_rc.send_mail = function() return end
 end
 
 bh_rc.record = function(target)
